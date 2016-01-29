@@ -18,30 +18,31 @@ using namespace std;
 const static double kWindowWidth = 600;
 const static double kWindowHeight = 600;
 const static string kWindowTitle = "Recursive Trees";
-const static double kTrunkLength  = kWindowHeight/4;
+const static double kTrunkLength  = kWindowHeight/10;
 const static double kShrinkFactor = 0.70;
 const static int kBranchAngleSeparation = 15;
-const static int kBranchStartAngle = 135;
+const static int kBranchStartAngle = 45;
 const static int kTrunkStartAngle = 90;
 const static string kLeafColor = "#2e8b57";
 const static string kTrunkColor = "#8b7765";
 const static double kBranchProbability = 1.0;
 
-static GPoint drawATree(GWindow& window, GPoint & trunkBase, int length, int angle, int order) {
+static GPoint drawATree(GWindow & window, GPoint trunkBase, int length, int angle, int order) {
     if (order == 0) {
-        window.setColor(order < 2 ? kLeafColor : kTrunkColor);
         return window.drawPolarLine(trunkBase, length, angle);
     } else {
-        for (int i = 0; i < kTrunkStartAngle / kBranchAngleSeparation + 1; i++) {
-            trunkBase = drawATree(window, trunkBase, kTrunkLength * pow(kShrinkFactor, order),
-                             kBranchStartAngle + i * kBranchAngleSeparation, order - 1);
+        int limit = kTrunkStartAngle / kBranchAngleSeparation / 2;
+        trunkBase = window.drawPolarLine(trunkBase, length, angle);
+        for (int i = - limit; i < limit; i++) {
+        drawATree(window, trunkBase, length * kShrinkFactor, angle + i * kBranchAngleSeparation, order - 1);
         }
+        return drawATree(window, trunkBase, length * kShrinkFactor, angle + limit * kBranchAngleSeparation, order - 1);
     }
-    return window.drawPolarLine(trunkBase, length, angle);
 }
 
 static void drawTree(GWindow& window, int order) {
     GPoint trunkBase(window.getWidth()/2, window.getHeight());
+    window.setColor(order < 2 ? kLeafColor : kTrunkColor);
     drawATree(window, trunkBase, kTrunkLength, kTrunkStartAngle, order);
 }
 
