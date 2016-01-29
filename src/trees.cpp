@@ -6,6 +6,7 @@
 
 #include <string>    // for string
 #include <iostream>  // for cout, endl
+#include <cmath>  // for power of kShrinkFactor
 using namespace std;
 
 #include "console.h" // required of all CS106 C++ programs
@@ -32,7 +33,7 @@ static GPoint drawATree(GWindow& window, GPoint & trunkBase, int length, int ang
         return window.drawPolarLine(trunkBase, length, angle);
     } else {
         for (int i = 0; i < kTrunkStartAngle / kBranchAngleSeparation + 1; i++) {
-            drawATree(window, trunkBase, kTrunkLength * kShrinkFactor,
+            trunkBase = drawATree(window, trunkBase, kTrunkLength * pow(kShrinkFactor, order),
                              kBranchStartAngle + i * kBranchAngleSeparation, order - 1);
         }
     }
