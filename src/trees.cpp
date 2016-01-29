@@ -18,7 +18,7 @@ using namespace std;
 const static double kWindowWidth = 600;
 const static double kWindowHeight = 600;
 const static string kWindowTitle = "Recursive Trees";
-const static double kTrunkLength  = kWindowHeight/10;
+const static double kTrunkLength  = kWindowHeight/4;
 const static double kShrinkFactor = 0.70;
 const static int kBranchAngleSeparation = 15;
 const static int kBranchStartAngle = 45;
@@ -29,8 +29,10 @@ const static double kBranchProbability = 1.0;
 
 static GPoint drawATree(GWindow & window, GPoint trunkBase, int length, int angle, int order) {
     if (order == 0) {
+        window.setColor(kLeafColor);
         return window.drawPolarLine(trunkBase, length, angle);
     } else {
+        window.setColor(order < 2 ? kLeafColor : kTrunkColor);
         int limit = kTrunkStartAngle / kBranchAngleSeparation / 2;
         trunkBase = window.drawPolarLine(trunkBase, length, angle);
         for (int i = - limit; i < limit; i++) {
@@ -42,7 +44,6 @@ static GPoint drawATree(GWindow & window, GPoint trunkBase, int length, int angl
 
 static void drawTree(GWindow& window, int order) {
     GPoint trunkBase(window.getWidth()/2, window.getHeight());
-    window.setColor(order < 2 ? kLeafColor : kTrunkColor);
     drawATree(window, trunkBase, kTrunkLength, kTrunkStartAngle, order);
 }
 
