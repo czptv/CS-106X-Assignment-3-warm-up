@@ -24,7 +24,7 @@ const static int kBranchAngleSeparation = 15;
 const static int kTrunkStartAngle = 90;
 const static string kLeafColor = "#2e8b57";
 const static string kTrunkColor = "#8b7765";
-const static double kBranchProbability = 0.3;
+const static double kBranchProbability = 1.0;
 
 static void drawATree(GWindow & window, GPoint trunkBase, int length, int angle, int order) {
     if (order == 0) {
